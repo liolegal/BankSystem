@@ -7,8 +7,8 @@ import java.io.Serializable
 
 class Bank(_nameOfBank: String) : Serializable {
     var usersPasswords = mutableMapOf<String, String>()
-    var clientsOfBank = mutableMapOf<String, Client>()
-    var managersOfBank = mutableMapOf<String, Manager>()
+    var clientsOfBank= mutableMapOf<String, Client>()
+    var manager=Manager(" "," "," "," ")
     val nameOfBank: String = _nameOfBank
 
     fun getClientByLogin(_login: String): Client {
@@ -18,10 +18,11 @@ class Bank(_nameOfBank: String) : Serializable {
         val newClient=Client(_login,_password,_name,_secondName)
         usersPasswords.putIfAbsent(_login,_password)
         clientsOfBank.putIfAbsent(_login,newClient)
+        callApprove(newClient)
         return newClient
     }
-    fun callApprove(){
-
+    fun callApprove(_client:Client){
+    manager.listOfApprove.add(_client)
     }
 
 }

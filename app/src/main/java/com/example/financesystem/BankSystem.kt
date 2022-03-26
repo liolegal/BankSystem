@@ -5,9 +5,10 @@ import com.example.financesystem.Abstractions.Company
 import com.example.financesystem.Abstractions.Transfer
 import com.example.financesystem.Users.Client
 import com.example.financesystem.Users.Manager
+import java.io.Serializable
 
 
-class BankSystem {
+class BankSystem :Serializable{
     val vtb = Bank("VTB")
     val belarusbank = Bank("Belarusbank")
     val belinvest = Bank("Belinvest")
@@ -17,11 +18,7 @@ class BankSystem {
     val manager = Manager("ivan", "pupkin", "manager", "manager")
     val vlad = Client("Vlad", "belko", "vlad", "1234")
     val alexey = Client("Alexey", "hgj", "Alexey", "1234")
-    var banks = mapOf(vtb.nameOfBank to vtb,
-            belarusbank.nameOfBank to belarusbank,
-            belinvest.nameOfBank to belinvest)
 
-    //________________________________________________________________________//
     var globalMapOfAccounts = mutableMapOf<String, BankAccount>()
     var transfers = mutableListOf<Transfer>()
 

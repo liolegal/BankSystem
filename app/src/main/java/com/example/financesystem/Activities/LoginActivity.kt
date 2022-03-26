@@ -8,6 +8,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.financesystem.Bank
+import com.example.financesystem.BankSystem
 import com.example.financesystem.R
 import com.example.financesystem.User
 import com.example.financesystem.Users.Client
@@ -22,6 +23,7 @@ class LoginActivity : AppCompatActivity() {
         val inputPassword = findViewById<EditText>(R.id.password_edit)
         val arguments = getIntent().getExtras()
         val selectedBank: Bank = arguments?.getSerializable("bank") as Bank
+        val bankSystem:BankSystem=arguments?.getSerializable("bankSystem") as BankSystem
         findViewById<TextView>(R.id.registrate_text).setOnClickListener() {
             val newActivityIntent = Intent(this, RegisterActivity::class.java)
             newActivityIntent.putExtra("bankToRegistrate", selectedBank)
@@ -35,29 +37,37 @@ class LoginActivity : AppCompatActivity() {
             if (selectedBank.usersPasswords.containsKey(inputLogin.text.toString())) {
 
                 if (selectedBank.usersPasswords.getValue(inputLogin.text.toString()) == inputPassword.text.toString()) {
-                    Toast.makeText(
-                        this,
-                        "Welcome" + " " + selectedBank.clientsOfBank.getValue(inputLogin.text.toString()).login,
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    if (selectedBank.clientsOfBank.getValue(inputLogin.text.toString()) is Client) {
-                        val newActivityIntent = Intent(this, ClientActivity::class.java)
-                        newActivityIntent.putExtra(
-                            "client",
-                            selectedBank.clientsOfBank.getValue(inputLogin.text.toString())
-                        )
+//
+                    if (selectedBank.clientsOfBank[inputLogin.text.toString()] != null) {
+                        if (selectedBank.clientsOfBank.getValue(inputLogin.text.toString()).approveOfManager) {
+                            val newActivityIntent = Intent(this, ClientActivity::class.java)
+                            newActivityIntent.putExtra(
+                                "client",
+                                selectedBank.clientsOfBank.getValue(inputLogin.text.toString())
+                            )
+                            newActivityIntent.putExtra("bankSystem", bankSystem)
+                            startActivity((newActivityIntent))
+                        } else {
+                            Toast.makeText(
+                                this,
+                                "Need an approve",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+
+                    }
+                    if (selectedBank.manager.login == inputLogin.text.toString()) {
+                        val newActivityIntent = Intent(this, ManagerActivity::class.java)
+                        newActivityIntent.putExtra("manager", selectedBank.manager)
                         startActivity((newActivityIntent))
                     }
-                    else if(selectedBank.managersOfBank.getValue(inputLogin.text.toString()) is Manager){
-                       val newActivityIntent=Intent(this, ManagerActivity::class.java)
-                        newActivityIntent.putExtra("manager",selectedBank.managersOfBank.getValue(inputLogin.text.toString()))
-                        startActivity((newActivityIntent))
-                    }
-
-
+                } else {
+                    Toast.makeText(this, "Wrong password", Toast.LENGTH_SHORT).show()
                 }
+            } else {
+                Toast.makeText(this, "Wrong login", Toast.LENGTH_SHORT).show()
             }
-            Toast.makeText(this, "Wrong login or password", Toast.LENGTH_SHORT).show()
         }
+
     }
 }

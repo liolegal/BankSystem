@@ -17,18 +17,24 @@ class Client(
     var phoneNumber: String = "Undefined"
     var email: String = "Undefined"
     var approveOfManager=false
-    var bankAccounts = mutableMapOf<String, BankAccount>()
+    var bankAccounts = ArrayList<BankAccount>()
 
 
     fun createBankAccount(): BankAccount {
         val newBankAccount = BankAccount()
         newBankAccount.idOfBankAccount = (1..100).random().toString() + "acc"
-        bankAccounts.putIfAbsent(newBankAccount.idOfBankAccount, newBankAccount)
+        bankAccounts.add(newBankAccount)
         return newBankAccount
     }
 
     fun getBankAccount(_id: String): BankAccount {
-        return bankAccounts.getValue(_id)
+        lateinit var  accToReturn:BankAccount
+        for (acc in bankAccounts){
+            if(acc.idOfBankAccount==_id){
+                accToReturn=acc
+            }
+        }
+        return accToReturn
     }
 
     fun putMoney() {
