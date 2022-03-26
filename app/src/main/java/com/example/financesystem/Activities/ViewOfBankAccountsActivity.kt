@@ -16,8 +16,8 @@ class ViewOfBankAccountsActivity : AppCompatActivity() {
         val arguments = getIntent().getExtras()
         val selectedClient: Client = arguments?.getSerializable("953") as Client
         var listView = findViewById<ListView>(R.id.accounts_list)
-        val bankAccounts = selectedClient.bankAccounts as ArrayList<BankAccount>
-        val adapter = BankAccountsAdapter(this,bankAccounts)
-        listView.adapter = adapter
+        val bankAccounts = selectedClient.bankAccounts
+       val adapter = BankAccountsAdapter(this,bankAccounts)
+       listView.adapter = adapter
     }
 }

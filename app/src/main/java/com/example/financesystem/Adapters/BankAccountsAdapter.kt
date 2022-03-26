@@ -8,11 +8,12 @@ import com.example.financesystem.Abstractions.BankAccount
 import com.example.financesystem.R
 import com.example.financesystem.Users.Client
 
-class BankAccountsAdapter(private val context: Context,
-                     private val dataSource: ArrayList<BankAccount>) : BaseAdapter() {
-
-    private val inflater: LayoutInflater
-            = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+class BankAccountsAdapter(
+    private val context: Context,
+    private val dataSource: ArrayList<BankAccount>
+) : BaseAdapter() {
+    private val inflater: LayoutInflater =
+        context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
     //1
     override fun getCount(): Int {
@@ -21,7 +22,11 @@ class BankAccountsAdapter(private val context: Context,
 
     //2
     override fun getItem(position: Int): Any {
-        return dataSource[position]
+        lateinit var toReturn: Any
+        if (dataSource.isNotEmpty()) {
+            toReturn = dataSource[position]
+        }
+        return toReturn
     }
 
     //3
@@ -32,6 +37,7 @@ class BankAccountsAdapter(private val context: Context,
     //4
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         // Get view for row item
+        notifyDataSetChanged()
         val rowView = inflater.inflate(R.layout.list_item_accounts, parent, false)
 // Get title element
         val idTitle = rowView.findViewById(R.id.id_of_account_title) as TextView
@@ -39,8 +45,8 @@ class BankAccountsAdapter(private val context: Context,
 // Get subtitle element
         val moneyTitle = rowView.findViewById(R.id.money_title) as TextView
         val bankAccount = getItem(position) as BankAccount
-        idTitle .text = bankAccount.idOfBankAccount
-        moneyTitle.text = bankAccount.countOfMoney.toString()
+        idTitle.text = bankAccount.idOfBankAccount
+        moneyTitle.text = bankAccount.countOfMoney.toString()+"$"
 
 
 

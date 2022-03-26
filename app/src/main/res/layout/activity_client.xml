@@ -48,6 +48,15 @@
             android:text="Add account">
 
         </Button>
+        <ListView
+
+            android:id="@+id/accountss_list"
+
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content" >
+
+        </ListView>
     </LinearLayout>
 
 
