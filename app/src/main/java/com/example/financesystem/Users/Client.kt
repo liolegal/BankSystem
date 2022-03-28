@@ -26,6 +26,10 @@ class Client(
         bankAccounts.add(newBankAccount)
         return newBankAccount
     }
+    fun deleteBankAccount(toDelete:BankAccount){
+        bankAccounts.remove(toDelete)
+    }
+
 
     fun getBankAccount(_id: String): BankAccount {
         lateinit var  accToReturn:BankAccount
@@ -37,7 +41,4 @@ class Client(
         return accToReturn
     }
 
-    fun putMoney() {
-
-    }
 }

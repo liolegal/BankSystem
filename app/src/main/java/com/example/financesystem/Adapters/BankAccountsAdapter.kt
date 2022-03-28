@@ -10,21 +10,21 @@ import com.example.financesystem.Users.Client
 
 class BankAccountsAdapter(
     private val context: Context,
-    private val dataSource: ArrayList<BankAccount>
+    private val dataSource: Client
 ) : BaseAdapter() {
     private val inflater: LayoutInflater =
         context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
     //1
     override fun getCount(): Int {
-        return dataSource.size
+        return dataSource.bankAccounts.size
     }
 
     //2
     override fun getItem(position: Int): Any {
         lateinit var toReturn: Any
-        if (dataSource.isNotEmpty()) {
-            toReturn = dataSource[position]
+        if (dataSource.bankAccounts.isNotEmpty()) {
+            toReturn = dataSource.bankAccounts[position]
         }
         return toReturn
     }

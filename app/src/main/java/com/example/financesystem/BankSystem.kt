@@ -1,14 +1,17 @@
 package com.example.financesystem
 
+import android.content.Context
 import com.example.financesystem.Abstractions.BankAccount
 import com.example.financesystem.Abstractions.Company
 import com.example.financesystem.Abstractions.Transfer
 import com.example.financesystem.Users.Client
 import com.example.financesystem.Users.Manager
+import com.google.gson.GsonBuilder
+import java.io.FileWriter
 import java.io.Serializable
 
 
-class BankSystem :Serializable{
+class BankSystem : Serializable {
     val vtb = Bank("VTB")
     val belarusbank = Bank("Belarusbank")
     val belinvest = Bank("Belinvest")
@@ -19,27 +22,26 @@ class BankSystem :Serializable{
     val vlad = Client("Vlad", "belko", "vlad", "1234")
     val alexey = Client("Alexey", "hgj", "Alexey", "1234")
 
-    var globalMapOfAccounts = mutableMapOf<String, BankAccount>()
-    var transfers = mutableListOf<Transfer>()
+    companion object {
+        var globalMapOfAccounts = mutableMapOf<String, BankAccount>()
+        var transfers = mutableListOf<Transfer>()
 
-    //______________________________________________________________________________________
-    fun addTransfer(_sender: BankAccount, _idOfReceiver: String, _countOfMoney: Float) {
-        val receiver: BankAccount = globalMapOfAccounts.getValue(_idOfReceiver)
-        val newTransfer: Transfer = Transfer(_sender, receiver)
-        newTransfer.transfer(_countOfMoney)
-        transfers.add(newTransfer)
-    }
+        fun createBankAccount(_client: Client) {
+            val newBankAccount = _client.createBankAccount()
+            globalMapOfAccounts.putIfAbsent(newBankAccount.idOfBankAccount, newBankAccount)
+        }
 
-    fun createBankAccount(_client: Client) {
-        val newBankAccount = _client.createBankAccount()
-        globalMapOfAccounts.putIfAbsent(newBankAccount.idOfBankAccount, newBankAccount)
+        fun addTransfer(_sender: BankAccount, _idOfReceiver: String, _countOfMoney: Float) {
+            val receiver: BankAccount = globalMapOfAccounts.getValue(_idOfReceiver)
+            val newTransfer: Transfer = Transfer(_sender, receiver)
+            newTransfer.transfer(_countOfMoney)
+            transfers.add(newTransfer)
+        }
 
+        fun deleteBankAccount(_client: Client, toDelete: BankAccount) {
+            _client.deleteBankAccount(toDelete)
+        }
 
-    }
-
-
-    fun createBankAccount(_company: Company) {
-        TODO()
     }
 
 
@@ -70,14 +72,12 @@ class BankSystem :Serializable{
 //        var builder = GsonBuilder()
 //        var gson = builder.create()
 //        val str:String = gson.toJson(bank)
-//        try{
-//            val fileWriter = FileWriter("test.txt", true)
-//            fileWriter.write(str)
-//            fileWriter.close()
-//        } catch (exception: Exception){
-//            println(exception.message)
-//        }
-
+//    val filename = "myfile"
+//    val fileContents = "Hello world!"
+//    context.openFileOutput(filename, Context.MODE_PRIVATE).use {
+//        it.write(fileContents.toByteArray())
 //    }
+
+}
 
 }

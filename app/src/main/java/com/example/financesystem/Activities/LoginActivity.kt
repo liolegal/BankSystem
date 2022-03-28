@@ -23,7 +23,6 @@ class LoginActivity : AppCompatActivity() {
         val inputPassword = findViewById<EditText>(R.id.password_edit)
         val arguments = getIntent().getExtras()
         val selectedBank: Bank = arguments?.getSerializable("bank") as Bank
-        val bankSystem:BankSystem=arguments?.getSerializable("bankSystem") as BankSystem
         findViewById<TextView>(R.id.registrate_text).setOnClickListener() {
             val newActivityIntent = Intent(this, RegisterActivity::class.java)
             newActivityIntent.putExtra("bankToRegistrate", selectedBank)
@@ -45,7 +44,6 @@ class LoginActivity : AppCompatActivity() {
                                 "client",
                                 selectedBank.clientsOfBank.getValue(inputLogin.text.toString())
                             )
-                            newActivityIntent.putExtra("bankSystem", bankSystem)
                             startActivity((newActivityIntent))
                         } else {
                             Toast.makeText(

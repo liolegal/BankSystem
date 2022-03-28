@@ -21,25 +21,26 @@ class MainActivity : AppCompatActivity() {
         val vtb = Bank("VTB")
         val belarusbank = Bank("Belarusbank")
         val belinvest = Bank("Belinvest")
-        val kirill = Client("kirill", "Tihon", "Kirill", "Tihonovich")
+        val kirill = Client("Kirill", "1234", "Kirill", "Tihonovich")
         kirill.approveOfManager=true
-        val vlad = Client("Vlad", "belko", "vlad", "1234")
+        val vlad = Client("Vlad", "1234", "vlad", "belko")
+        vlad.approveOfManager=true
         val alexey = Client("Alexey", "hgj", "Alexey", "1234")
+        alexey.approveOfManager=true
         val manager = Manager("ivan", "pupkin", "manager", "manager")
         var banks = mapOf(vtb.nameOfBank to vtb,
                 belarusbank.nameOfBank to belarusbank,
                 belinvest.nameOfBank to belinvest)
         val bankSystem = BankSystem()
         //bankSystem.fill()
-        vtb.usersPasswords.putIfAbsent("kirill", "1234")
-        vtb.clientsOfBank.putIfAbsent("kirill", kirill)
+        vtb.usersPasswords.putIfAbsent("Kirill", "1234")
+        vtb.clientsOfBank.putIfAbsent("Kirill", kirill)
         vtb.usersPasswords.putIfAbsent(manager.login,manager.password)
         vtb.manager=manager
         belarusbank.usersPasswords.putIfAbsent("vlad", "1234")
         belarusbank.clientsOfBank.putIfAbsent("vlad", vlad)
         belinvest.usersPasswords.putIfAbsent("Alexey", "1234")
         belinvest.clientsOfBank.putIfAbsent("Alexey", alexey)
-
 
         val banksNames = arrayOf(vtb.nameOfBank, belarusbank.nameOfBank, belinvest.nameOfBank)
         val arrayAdapter: ArrayAdapter<*>
@@ -49,7 +50,6 @@ class MainActivity : AppCompatActivity() {
         mListView.setOnItemClickListener { _, _, position, _ ->
             val newActivityIntent = Intent(this, LoginActivity::class.java)
             newActivityIntent.putExtra("bank", banks.getValue(banksNames[position]))
-            newActivityIntent.putExtra("bankSystem", bankSystem)
 
             startActivity(newActivityIntent)
         }

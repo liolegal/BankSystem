@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FinanceSystem">
-        <activity android:name=".Activities.ViewOfBankAccountsActivity"></activity>
+        <activity android:name=".Activities.BankAccountActivity"></activity>
         <activity android:name=".Activities.ViewOfApproveActivity" />
         <activity android:name=".Activities.RegisterActivity" />
         <activity
